@@ -13,20 +13,21 @@ var rename = require('gulp-rename');
 
 // More Plugins
 var browserify = require('browserify');
-var reactify = require('reactify');
 var source = require('vinyl-source-stream');
 var connect = require('gulp-connect');
 var watch = require('gulp-watch');
 var browserSync = require('browser-sync').create();
+var babelify = require("babelify");
 
 // Browserify Task
 gulp.task('browserify', function() {
     var b = browserify();
-    b.transform(reactify); // use the reactify transform
-    b.add('./index.js');
+    b.transform(babelify, {presets: ["es2015", "react"]});
+    b.add('components/app.jsx');
+    b.add('components/Main.jsx');
     return b.bundle()
-        .pipe(source('bundle.js'))
-        .pipe(gulp.dest('./dist'));
+        .pipe(source('app.js'))
+        .pipe(gulp.dest('./build'));
 });
 
 // Connect configure
@@ -37,43 +38,43 @@ gulp.task('connect', function() {
 // Lint Task
 gulp.task('lint', function() {
     return gulp.src([
-        '*.js',
-        'dis/*.js'
+        //'components/*.jsx'
+        //'dis/*.js'
+        //'dist/bundle.js'
     ])
         .pipe(jshint())
         .pipe(jshint.reporter('default'));
 });
 
 // Watch Files For Changes
-gulp.task('watch', function() {
-    gulp.watch('*.js', ['lint', 'browserify']);
-    gulp.watch('components/*.jsx', ['lint', 'browserify']);
-});
+//gulp.task('watch', function() {
+//    gulp.watch('*.js', ['lint', 'browserify']);
+//    gulp.watch('components/*.jsx', ['lint', 'browserify']);
+//});
 
-gulp.task('js-watch', ['lint', 'browserify'], function() {
+gulp.task('js-watch', ['browserify'], function() {
     browserSync.reload();
 });
 
 // launch Browsersync
-gulp.task('serve', ['lint','browserify'], function () {
+gulp.task('serve', ['browserify'], function () {
 
     // Serve files from the root of this project
     browserSync.init({
-        port: 8080,
+        //port: 8080,
         server: {
             baseDir: "./"
         },
-        reloadDebounce: 20000
+        reloadDebounce: 3000
     });
 
 
-    gulp.watch('*.js', ['js-watch']);
     gulp.watch('components/*.jsx', ['js-watch']);
     gulp.watch('dist/bundle.js', ['js-watch']);
-    //gulp.watch('dist/bundle.js').on('change', function() {
-    //
-    //    browserSync.reload();
-    //});
+    gulp.watch('index.html').on('change', function() {
+
+        browserSync.reload();
+    });
     //gulp.watch('scss/*.scss', ['sass']);
 });
 
