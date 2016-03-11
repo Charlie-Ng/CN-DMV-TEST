@@ -18,13 +18,20 @@ var connect = require('gulp-connect');
 var watch = require('gulp-watch');
 var browserSync = require('browser-sync').create();
 var babelify = require("babelify");
+var reactify = require('reactify');
 
 // Browserify Task
 gulp.task('browserify', function() {
     var b = browserify();
-    b.transform(babelify, {presets: ["es2015", "react"]});
+    b.transform(babelify);
+    //b.transform(reactify);
     b.add('components/app.jsx');
     b.add('components/Main.jsx');
+    //return browserify({entries: 'components/app.jsx', extensions: ['.jsx'], debug:true})
+    //    .transform(babelify.configure({
+    //        presets: ["es2015", "react"]
+    //    }))
+    //    .bundle()
     return b.bundle()
         .pipe(source('app.js'))
         .pipe(gulp.dest('./build'));
@@ -36,15 +43,15 @@ gulp.task('connect', function() {
 });
 
 // Lint Task
-gulp.task('lint', function() {
-    return gulp.src([
-        //'components/*.jsx'
-        //'dis/*.js'
-        //'dist/bundle.js'
-    ])
-        .pipe(jshint())
-        .pipe(jshint.reporter('default'));
-});
+//gulp.task('lint', function() {
+//    return gulp.src([
+//        //'components/*.jsx'
+//        //'dis/*.js'
+//        //'dist/bundle.js'
+//    ])
+//        .pipe(jshint())
+//        .pipe(jshint.reporter('default'));
+//});
 
 // Watch Files For Changes
 //gulp.task('watch', function() {

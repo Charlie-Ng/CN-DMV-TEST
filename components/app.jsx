@@ -1,77 +1,46 @@
-/**
- * Created by kitchiong on 1/31/16.
- */
 import React from 'react';
+import LeftNav from 'material-ui/lib/left-nav';
+import MenuItem from 'material-ui/lib/menus/menu-item';
 import RaisedButton from 'material-ui/lib/raised-button';
-import Dialog from 'material-ui/lib/dialog';
-import Colors from 'material-ui/lib/styles/colors';
-import FlatButton from 'material-ui/lib/flat-button';
-import getMuiTheme from 'material-ui/lib/styles/getMuiTheme';
-import themeDecorator from 'material-ui/lib/styles/theme-decorator';
+import TagFaces from 'material-ui/lib/svg-icons/image/tag-faces';
+import LibraryBooks from 'material-ui/lib/svg-icons/av/library-books';
+import Dvr from 'material-ui/lib/svg-icons/device/dvr';
+import ErrorOutline from 'material-ui/lib/svg-icons/alert/error-outline';
 
-const styles = {
-    container: {
-        textAlign: 'center',
-        paddingTop: 200
-    }
-};
+export default class LeftNavUndockedExample extends React.Component {
 
-const muiTheme = getMuiTheme({
-    accent1Color: Colors.deepOrange500,
-});
-
-class Main extends React.Component {
-    constructor(props, context) {
-        super(props, context);
-        this.handleRequestClose = this.handleRequestClose.bind(this);
-        this.handleTouchTap = this.handleTouchTap.bind(this);
-
-        this.state = {
-            open: false
-        };
+    constructor(props) {
+        super(props);
+        this.state = {open: true};
+        this.handleToggle = this.handleToggle.bind(this);
+        this.handleClose = this.handleClose.bind(this);
     }
 
-    handleRequestClose() {
-        this.setState({
-            open: false
-        });
-    }
+    //handleToggle = () => this.setState({open: !this.state.open});
+    handleToggle() {this.setState({open: !this.state.open});};
 
-    handleTouchTap() {
-        this.setState({
-            open: true
-        });
-    }
+    //handleClose = () => this.setState({open: false});
+    handleClose() {this.setState({open: false});};
 
     render() {
-        const standardActions = (
-            <FlatButton
-                label="Okey"
-                secondary={true}
-                onTouchTap={this.handleRequestClose}
-            />
-        );
-
         return (
-            <div style={styles.container}>
-                <Dialog
-                    open={this.state.open}
-                    title="Superrjjjj Secret Password"
-                    actions={standardActions}
-                    onRequestClose={this.handleRequestClose}
-                >
-                    1-2-3-4-5
-                </Dialog>
-                <h1>material-ui</h1>
-                <h2>example project</h2>
+            <div>
                 <RaisedButton
-                    label="Supersssr Secret Password"
-                    primary={true}
-                    onTouchTap={this.handleTouchTap}
+                    label="Open LeftNav"
+                    onTouchTap={this.handleToggle}
                 />
+                <LeftNav
+                    docked={true}
+                    width={200}
+                    open={this.state.open}
+                    onRequestChange={open => this.setState({open})}
+                >
+                    <MenuItem primaryText="Welcome" leftIcon={<TagFaces />}/>
+                    <MenuItem primaryText="Practice" leftIcon={<LibraryBooks />}/>
+                    <MenuItem primaryText="Test" leftIcon={<Dvr />}/>
+                    <MenuItem primaryText="About us" leftIcon={<ErrorOutline />}/>
+                </LeftNav>
             </div>
         );
     }
 }
-
-export default themeDecorator(muiTheme)(Main);
