@@ -25,8 +25,8 @@ gulp.task('browserify', function() {
     var b = browserify();
     b.transform(babelify);
     //b.transform(reactify);
-    b.add('components/app.jsx');
-    b.add('components/Main.jsx');
+    b.add('components/welcome/app.jsx');
+    b.add('components/welcome/Main.jsx');
     //return browserify({entries: 'components/app.jsx', extensions: ['.jsx'], debug:true})
     //    .transform(babelify.configure({
     //        presets: ["es2015", "react"]
@@ -76,7 +76,7 @@ gulp.task('serve', ['browserify'], function () {
     });
 
 
-    gulp.watch('components/*.jsx', ['js-watch']);
+    gulp.watch('components/welcome/*.jsx', ['js-watch']);
     gulp.watch('dist/bundle.js', ['js-watch']);
     gulp.watch('index.html').on('change', function() {
 

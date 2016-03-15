@@ -1,13 +1,16 @@
 import React from 'react';
-import LeftNav from 'material-ui/lib/left-nav';
-import MenuItem from 'material-ui/lib/menus/menu-item';
-import RaisedButton from 'material-ui/lib/raised-button';
-import TagFaces from 'material-ui/lib/svg-icons/image/tag-faces';
-import LibraryBooks from 'material-ui/lib/svg-icons/av/library-books';
-import Dvr from 'material-ui/lib/svg-icons/device/dvr';
-import ErrorOutline from 'material-ui/lib/svg-icons/alert/error-outline';
-import Paper from 'material-ui/lib/paper';
+import LeftNav from '../../node_modules/material-ui/lib/left-nav';
+import MenuItem from '../../node_modules/material-ui/lib/menus/menu-item';
+import RaisedButton from '../../node_modules/material-ui/lib/raised-button';
+import TagFaces from '../../node_modules/material-ui/lib/svg-icons/image/tag-faces';
+import LibraryBooks from '../../node_modules/material-ui/lib/svg-icons/av/library-books';
+import Dvr from '../../node_modules/material-ui/lib/svg-icons/device/dvr';
+import ErrorOutline from '../../node_modules/material-ui/lib/svg-icons/alert/error-outline';
+import Paper from '../../node_modules/material-ui/lib/paper';
 
+import Toolbar from '../../node_modules/material-ui/lib/toolbar/toolbar';
+
+//FIXME use propType style later
 const style = {
     leftNav: {
         backgroundColor: '#BBDEFB'
@@ -18,6 +21,9 @@ const style = {
         paddingBottom: '24',
         fontSize: '24',
         backgroundColor: '#BBDEFB'
+    },
+    toolbar: {
+        width: 20
     }
 };
 
@@ -37,13 +43,10 @@ export default class LeftNavUndockedExample extends React.Component {
     render() {
         return (
             <div>
-                <RaisedButton
-                    label="Open LeftNav"
-                    onTouchTap={this.handleToggle}
-                />
+
                 <LeftNav
                     style={style.leftNav}
-                    docked={true}
+                    docked={true}  //https://github.com/callemall/material-ui/issues/957
                     width={200}
                     open={this.state.open}
                     onRequestChange={open => this.setState({open})}
